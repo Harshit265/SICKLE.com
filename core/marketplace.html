@@ -18,3 +18,16 @@
     </div>
 </div>
 {% endblock %}
+<div class="marketplace-grid">
+    {% for profile in all_profiles %}
+    <div class="card">
+        <h3>{{ profile.user.username }} ({{ profile.profession }})</h3>
+        <p><strong>Raw Materials:</strong> {{ profile.material_details }}</p>
+        
+        <div class="contact-actions">
+            <a href="tel:{{ profile.phone_number }}" class="call-btn">Call</a>
+            <a href="https://wa.me/{{ profile.phone_number }}" class="wa-btn">WhatsApp</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>

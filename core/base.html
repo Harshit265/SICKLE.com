@@ -18,3 +18,11 @@
     {% block content %}{% endblock %}
 </body>
 </html>
+<div class="content-overlay">
+    <h1>Welcome to Sickle.com</h1>
+    <div class="button-container">
+        <a href="{% url 'register' %}" class="btn">I am a Farmer</a>
+        <a href="{% url 'register' %}" class="btn">I am a Business</a>
+        <a href="{% url 'register' %}" class="btn">I am Both</a>
+    </div>
+</div>
