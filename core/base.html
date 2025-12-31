@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            /* This applies your background.jpg to the whole site */
+            background-image: url("{% static 'images/background.jpg' %}");
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+    <img src="{% static 'images/logo.png' %}" alt="Sickle Logo" width="150">
+    
+    {% block content %}{% endblock %}
+</body>
+</html>

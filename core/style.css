@@ -1,0 +1,21 @@
+body {
+    background: url('../images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Semi-transparent overlay for readability */
+.content-overlay {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 50px auto;
+    max-width: 600px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.logo-container img {
+    width: 150px;
+    margin-bottom: 20px;
+}

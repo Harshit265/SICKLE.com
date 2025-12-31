@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-white">Raw Material Marketplace</h1>
+    <div class="row">
+        {% for profile in profiles %}
+        <div class="col-md-4 mb-4">
+            <div class="card p-3 shadow">
+                <h3>{{ profile.user.first_name }} ({{ profile.get_profession_display }})</h3>
+                <p><strong>Requirement/Offer:</strong> {{ profile.raw_material_info }}</p>
+                <div class="d-grid gap-2">
+                    <a href="tel:{{ profile.phone_number }}" class="btn btn-primary">Call Now</a>
+                    <a href="https://wa.me/{{ profile.phone_number }}" class="btn btn-success">WhatsApp Chat</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
