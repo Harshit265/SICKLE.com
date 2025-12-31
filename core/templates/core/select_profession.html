@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>What is your profession?</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <p>Are you a: <strong>Farmer, Business, or Both</strong>?</p>
+        {{ form.profession }}
+        
+        <h3>Tell us about your materials:</h3>
+        <p>If you are a farmer, what kind of raw material do you have?</p>
+        <p>If you are a business, what kind of raw material do you want?</p>
+        {{ form.material_details }}
+        
+        <button type="submit">Complete Profile</button>
+    </form>
+{% endblock %}

@@ -54,10 +54,11 @@ ROOT_URLCONF = 'sickle_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'], # THIS LINE IS CRITICAL
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -117,11 +118,8 @@ USE_TZ = True
 import os
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
-# Add this line to tell Django where your static files are located
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -131,3 +129,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',  # Add your app name here!
 ]
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+] 
+# Make sure there is no lonely ']' sitting below this line.
