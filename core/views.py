@@ -13,3 +13,14 @@ def select_profession(request):
         form = ProfileForm()
     
     return render(request, 'core/select_profession.html', {'form': form})
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            # Redirect to the profession selection page immediately!
+            return redirect('select_profession') 
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
