@@ -20,3 +20,13 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+from django.contrib import admin
+from django.urls import path
+from core import views # Import your views
+
+urlpatterns = [
+    path('admin/', admin.site.row),
+    path('', views.home, name='home'), # This replaces the rocket ship with your site
+    path('register/', views.register, name='register'),
+    path('marketplace/', views.marketplace, name='marketplace'),
+]

@@ -4,25 +4,25 @@
 <head>
     <style>
         body {
-            /* This applies your background.jpg to the whole site */
-            background-image: url("{% static 'images/background.jpg' %}");
+            /* Handshake background with 50% transparency effect */
+            background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), 
+                        url("{% static 'images/background.jpg' %}") no-repeat center center fixed;
             background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white box */
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 600px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <img src="{% static 'images/logo.png' %}" alt="Sickle Logo" width="150">
-    
-    {% block content %}{% endblock %}
+    <div class="container">
+        <img src="{% static 'images/logo.png' %}" width="200" alt="Sickle.com">
+        {% block content %}{% endblock %}
+    </div>
 </body>
 </html>
-<div class="content-overlay">
-    <h1>Welcome to Sickle.com</h1>
-    <div class="button-container">
-        <a href="{% url 'register' %}" class="btn">I am a Farmer</a>
-        <a href="{% url 'register' %}" class="btn">I am a Business</a>
-        <a href="{% url 'register' %}" class="btn">I am Both</a>
-    </div>
-</div>

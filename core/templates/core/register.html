@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Join Sickle.com</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label>What is your profession?</label>
+        <select name="profession">
+            <option value="farmer">Farmer</option>
+            <option value="business">Business</option>
+            <option value="both">Both</option>
+        </select>
+
+        <label>What raw materials do you have/want?</label>
+        <textarea name="material_info" placeholder="e.g. Wheat, Rice, Organic Vegetables..."></textarea>
+        
+        <button type="submit">Complete Registration</button>
+    </form>
+{% endblock %}
