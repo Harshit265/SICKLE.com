@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h2>Dashboard</h2>
+
+<div class="row">
+  <a class="btn" href="{% url 'product_create' %}">+ Add Product</a>
+  <a class="btn secondary" href="/smpt/">Browse Marketplace</a>
+</div>
+
+<h3>Your Products</h3>
+<div class="grid">
+  {% for p in my_products %}
+    <div class="card">
+      <h4>{{ p.name }}</h4>
+      <p class="muted">{{ p.price_per_unit }} / {{ p.unit }}</p>
+      <p class="muted">Qty: {{ p.available_quantity }}</p>
+      <p class="muted">Active: {{ p.is_active }}</p>
+    </div>
+  {% empty %}
+    <p class="muted">No products yet.</p>
+  {% endfor %}
+</div>
+
+<h3>Your Orders</h3>
+<div class="grid">
+  {% for o in my_orders %}
+    <div class="card">
+      <h4>Order #{{ o.id }}</h4>
+      <p class="muted">{{ o.product.name }}</p>
+      <p>Qty: {{ o.quantity }} | Total: {{ o.total_price }}</p>
+      <p class="muted">Status: {{ o.status }}</p>
+    </div>
+  {% empty %}
+    <p class="muted">No orders yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}
