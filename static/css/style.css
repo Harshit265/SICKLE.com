@@ -30,7 +30,7 @@ body{
   display: flex;
   gap: 16px;
   align-items: center;
-  justify-content: space-between;
+  justify-content:center;
   padding: 12px 18px;
   background: rgba(255,255,255,0.9);
   backdrop-filter: blur(8px);
@@ -38,12 +38,16 @@ body{
 }
 
 .brand{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display:flex;
   align-items:center;
-  gap:10px;
+  gap: 6px;
   text-decoration:none;
   color: var(--brand);
   font-weight: 800;
+  flex-direction: column;
 }
 
 .logo{
@@ -51,9 +55,19 @@ body{
   height: 42px;
   object-fit: contain;
   alignment-baseline: middle;
+  margin-top: 6px;     /* down */
+  /* margin-top: -6px;  up */
+  margin-left: 10px;   /* right */
+  /* margin-left: -10px; left */
+
+  /* OR */
+  /* transform: translate(10px, -4px); */
 }
 
+
 .nav a{
+ position: absolute;
+  right: 18px
   margin-left: 12px;
   text-decoration:none;
   color: var(--brand);
