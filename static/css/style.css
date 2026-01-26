@@ -50,6 +50,7 @@ body{
   width: 42px;
   height: 42px;
   object-fit: contain;
+  alignment-baseline: middle;
 }
 
 .nav a{
