@@ -67,7 +67,7 @@ body{
 
 .nav a{
  position: absolute;
-  right: 18px
+  right: 18px;
   margin-left: 12px;
   text-decoration:none;
   color: var(--brand);
