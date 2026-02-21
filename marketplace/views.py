@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from .models import UserProfile
 
 def home(request):
-    return render(request, "home.html")
+    return render(request, 'home.html')
 
 def product_list(request):
     products = Product.objects.filter(is_active=True).order_by("-created_at")

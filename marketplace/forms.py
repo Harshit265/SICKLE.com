@@ -1,28 +1,31 @@
 from django import forms
 from django.core.exceptions import ValidationError
-CHOICES = [
-    ('', '-- Select Role --'),
-    ('business', 'Business'),
+ROLE_CHOICES = [
+    ('', '--- Select Role ---'),
     ('farmer', 'Farmer'),
+    ('business', 'Business'),
     ('both', 'Both'),
 ]
 
 class RegistrationForm(forms.Form):
-    # ... (previous fields: name, mobile, etc.)
-    user_type = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={'id': 'user-type-select'}))
+    # ... (name, mobile, email fields here) ...
+    user_type = forms.ChoiceField(
+        choices=ROLE_CHOICES, 
+        widget=forms.Select(attrs={'id': 'role_selector'})
+    )
     
-    # New Fields
-    business_needs = forms.CharField(
-        label="What kind of product are you looking for?", 
+    products_offered = forms.CharField(
+        label="Which products you have?",
         required=False,
-        widget=forms.TextInput(attrs={'class': 'conditional-field', 'id': 'business-field'})
+        widget=forms.TextInput(attrs={'placeholder': 'e.g. Wheat, Rice, Corn'})
     )
-    farmer_provides = forms.CharField(
-        label="What kind of product do you provide?", 
+    
+    products_needed = forms.CharField(
+        label="Which product are you looking for?",
         required=False,
-        widget=forms.TextInput(attrs={'class': 'conditional-field', 'id': 'farmer-field'})
+        widget=forms.TextInput(attrs={'placeholder': 'e.g. Organic Produce, Bulk Grains'})
     )
-    # ... (Keep all your previous fields here) ...
+    # ... (password fields) ..
     
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}))

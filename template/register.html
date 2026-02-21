@@ -14,34 +14,41 @@
         </form>
     </div>
 </body>
-<form method="POST">
+<<form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.non_field_errors }}
+    
+    <p>{{ form.name.label_tag }} {{ form.name }}</p>
+    <p>{{ form.user_type.label_tag }} {{ form.user_type }}</p>
+
+    <div id="farmer_box" style="display:none;">
+        <p>{{ form.products_offered.label_tag }} {{ form.products_offered }}</p>
+    </div>
+
+    <div id="business_box" style="display:none;">
+        <p>{{ form.products_needed.label_tag }} {{ form.products_needed }}</p>
+    </div>
+
     <button type="submit">Register</button>
 </form>
 
 <script>
-    const typeSelect = document.getElementById('user-type-select');
-    const bizField = document.getElementById('business-field').parentElement;
-    const farmField = document.getElementById('farmer-field').parentElement;
+    const roleSelector = document.getElementById('role_selector');
+    const farmerBox = document.getElementById('farmer_box');
+    const businessBox = document.getElementById('business_box');
 
-    function toggleFields() {
-        const value = typeSelect.value;
-        // Hide both first
-        bizField.style.display = 'none';
-        farmField.style.display = 'none';
+    roleSelector.addEventListener('change', function() {
+        // Reset: Hide both first
+        farmerBox.style.display = 'none';
+        businessBox.style.display = 'none';
 
-        if (value === 'business') {
-            bizField.style.display = 'block';
-        } else if (value === 'farmer') {
-            farmField.style.display = 'block';
-        } else if (value === 'both') {
-            bizField.style.display = 'block';
-            farmField.style.display = 'block';
+        if (this.value === 'farmer') {
+            farmerBox.style.display = 'block';
+        } else if (this.value === 'business') {
+            businessBox.style.display = 'block';
+        } else if (this.value === 'both') {
+            farmerBox.style.display = 'block';
+            businessBox.style.display = 'block';
         }
-    }
-
-    typeSelect.addEventListener('change', toggleFields);
-    window.onload = toggleFields; // Run once on load
+    });
 </script>
-</html>
