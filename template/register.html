@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - SICKLE</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Create your Account</h2>
+        <form method="POST">
+            {% csrf_token %} {{ form.as_p }}
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</body>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
+
+<script>
+    const typeSelect = document.getElementById('user-type-select');
+    const bizField = document.getElementById('business-field').parentElement;
+    const farmField = document.getElementById('farmer-field').parentElement;
+
+    function toggleFields() {
+        const value = typeSelect.value;
+        // Hide both first
+        bizField.style.display = 'none';
+        farmField.style.display = 'none';
+
+        if (value === 'business') {
+            bizField.style.display = 'block';
+        } else if (value === 'farmer') {
+            farmField.style.display = 'block';
+        } else if (value === 'both') {
+            bizField.style.display = 'block';
+            farmField.style.display = 'block';
+        }
+    }
+
+    typeSelect.addEventListener('change', toggleFields);
+    window.onload = toggleFields; // Run once on load
+</script>
+</html>
