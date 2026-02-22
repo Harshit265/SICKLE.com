@@ -4,6 +4,17 @@ from .forms import RegistrationForm
 from .models import Product, Order
 from django.contrib.auth.models import User
 from .models import UserProfile
+from django.contrib import messages
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            # ... (Your logic to save user and UserProfile) ...
+            
+            messages.success(request, f'Account created for {data["email"]}! You can now login.')
+            return redirect('login') #
+    # ...
 
 def home(request):
     return render(request, 'home.html')
@@ -41,26 +52,34 @@ def register_view(request):
         if form.is_valid():
             data = form.cleaned_data
             
-            # 1. Create the base User with their chosen password
+            # 1. Create the User
             new_user = User.objects.create_user(
                 username=data['email'], 
                 email=data['email'],
-                password=data['password'] # Securely hashed by Django automatically
+                password=data['password']
             )
             
-            # 2. Logic for product info
-            info = data.get('business_needs') or data.get('farmer_provides') or ""
-
-            # 3. Create the Profile
+            # 2. Save the Profile with the conditional data
             UserProfile.objects.create(
                 user=new_user,
+                role=data['user_type'],
                 mobile_number=data['mobile_number'],
-                # ... (rest of your fields) ...
-                product_info=info
+                products_offered=data.get('products_offered'), # Saves if they are a Farmer
+                products_needed=data.get('products_needed')    # Saves if they are a Business
             )
             
-            return redirect('login') # Send them to the login page now!
+            return redirect('login') #
+    # ... rest of function
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            # ... (your saving logic here) ...
+            return redirect('login') 
     else:
-        form = RegistrationForm()
-        
+        # This is the part you are likely missing!
+        form = RegistrationForm() 
+
+    # This return MUST be outside the 'if' block so it always runs
     return render(request, 'register.html', {'form': form})

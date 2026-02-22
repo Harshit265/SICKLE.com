@@ -128,3 +128,90 @@ right: 18px;
   text-align:center;
   color: var(--muted);
 }
+/* Modern Theme */
+:root {
+    --primary-green: #2d6a4f;
+    --light-bg: #f8f9fa;
+    --white: #ffffff;
+}
+
+body { font-family: 'Segoe UI', sans-serif; background-color: var(--light-bg); }
+
+/* F:\SICKLE.com\marketplace\static\css\style.css */
+
+.hero-section {
+    text-align: center;
+    padding: 120px 20px;
+    /* Use the relative path from the CSS folder to the images folder */
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../images/farm-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+
+.btn-primary {
+    background-color: var(--primary-green);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Container styling */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background-color: #f4f7f6;
+}
+
+/* The Form Card */
+.register-card {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 450px;
+    border-top: 6px solid #2d6a4f; /* SICKLE Green */
+}
+
+.register-card h2 { color: #2d6a4f; margin-bottom: 10px; }
+
+/* Stylish Button */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #2d6a4f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-submit:hover { background-color: #1b4332; }
+.form-group {
+    margin-bottom: 15px;
+    text-align: left; /* Aligns labels to the left for better readability */
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.register-card input, .register-card select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}

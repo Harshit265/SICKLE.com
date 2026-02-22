@@ -4,19 +4,17 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.db import models
 
-class Profile(models.Model):
-    class Role(models.TextChoices):
-        FARMER = "FARMER", "Farmer"
-        BUSINESS = "BUSINESS", "Business"
-
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    role = models.CharField(max_length=20, choices=Role.choices)
-    company_or_farm_name = models.CharField(max_length=200, blank=True)
-    phone = models.CharField(max_length=50, blank=True)
-    location = models.CharField(max_length=200, blank=True)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20) # farmer, business, or both
+    mobile_number = models.CharField(max_length=15)
+    
+    # New fields for the specific questions we added
+    products_offered = models.TextField(blank=True, null=True) # For Farmers
+    products_needed = models.TextField(blank=True, null=True)  # For Businesses
 
     def __str__(self):
-        return f"{self.user.username} ({self.role})"
+        return f"{self.user.username} - {self.role}"
 
 
 class Product(models.Model):

@@ -6,31 +6,55 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <div class="form-container">
-        <h2>Create your Account</h2>
-        <form method="POST">
-            {% csrf_token %} {{ form.as_p }}
-            <button type="submit">Register</button>
-        </form>
-    </div>
-</body>
-<<form method="POST">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
+    <div class="register-container">
+    <div class="register-card">
+    <h2>Join SICKLE.com</h2>
+    <p>Direct Farm-to-Business Procurement</p>
     
-    <p>{{ form.name.label_tag }} {{ form.name }}</p>
-    <p>{{ form.user_type.label_tag }} {{ form.user_type }}</p>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            {{ form.full_name.label_tag }}
+            {{ form.full_name }}
+        </div>
 
-    <div id="farmer_box" style="display:none;">
-        <p>{{ form.products_offered.label_tag }} {{ form.products_offered }}</p>
-    </div>
+        <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
 
-    <div id="business_box" style="display:none;">
-        <p>{{ form.products_needed.label_tag }} {{ form.products_needed }}</p>
-    </div>
+        <div class="form-group">
+            {{ form.user_type.label_tag }}
+            {{ form.user_type }}
+        </div>
 
-    <button type="submit">Register</button>
-</form>
+        <div id="farmer_box" style="display:none;">
+            {{ form.products_offered.label_tag }}
+            {{ form.products_offered }}
+        </div>
+
+        <div id="business_box" style="display:none;">
+            {{ form.products_needed.label_tag }}
+            {{ form.products_needed }}
+        </div>
+
+        <div class="form-group">
+            {{ form.password.label_tag }}
+            {{ form.password }}
+        </div>
+
+        <div class="form-group">
+            {{ form.confirm_password.label_tag }}
+            {{ form.confirm_password }}
+        </div>
+
+        <button type="submit" class="btn-submit">Create Account</button>
+    </form>
+</div>
+</div>
+</body>
+
 
 <script>
     const roleSelector = document.getElementById('role_selector');
@@ -52,3 +76,17 @@
         }
     });
 </script>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-card">
+        <h2>Join SICKLE.com</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-submit">Create Account</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

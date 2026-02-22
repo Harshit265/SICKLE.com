@@ -25,7 +25,9 @@ class RegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={'placeholder': 'e.g. Organic Produce, Bulk Grains'})
     )
-    # ... (password fields) ..
+    full_name = forms.CharField(label="Full Name", widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(label="Email ID", widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    # ... rest of your fields (user_type, password, etc.)
     
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}))
