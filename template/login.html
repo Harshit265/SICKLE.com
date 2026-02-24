@@ -1,26 +1,38 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login - SICKLE</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-    <div class="form-container">
-        <h2>Login to SICKLE</h2>
+
+{% block content %}
+<div class="register-container"> <div class="glass-card">
+        <h2 class="title">Login to SICKLE.com</h2>
+        <p class="subtitle">Direct Farm-to-Business Procurement</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" style="color: #155724; background: #d4edda; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Login</button>
+            
+            <div class="input-group">
+                <label>Email ID</label>
+                <input type="email" name="username" placeholder="Enter your email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter password" required>
+            </div>
+
+            <button type="submit" class="btn-primary">Login</button>
         </form>
-        <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+
+        <p style="margin-top: 20px; font-size: 0.9rem;">
+            Don't have an account? <a href="{% url 'register' %}" style="color: #2d6a4f; font-weight: bold;">Register here</a>
+        </p>
     </div>
-</body>
-</html>
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endif %}
+</div>
+{% endblock %}

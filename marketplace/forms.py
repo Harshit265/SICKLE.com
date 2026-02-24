@@ -8,11 +8,9 @@ ROLE_CHOICES = [
 ]
 
 class RegistrationForm(forms.Form):
-    # ... (name, mobile, email fields here) ...
-    user_type = forms.ChoiceField(
-        choices=ROLE_CHOICES, 
-        widget=forms.Select(attrs={'id': 'role_selector'})
-    )
+    full_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Enter Full Name'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'example@email.com'}))
+    # ... other fields ...
     
     products_offered = forms.CharField(
         label="Which products you have?",

@@ -1,92 +1,70 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register - SICKLE</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-    <div class="register-container">
-    <div class="register-card">
-    <h2>Join SICKLE.com</h2>
-    <p>Direct Farm-to-Business Procurement</p>
-    
-    <form method="POST">
-        {% csrf_token %}
-        
-        <div class="form-group">
-            {{ form.full_name.label_tag }}
-            {{ form.full_name }}
-        </div>
-
-        <div class="form-group">
-            {{ form.email.label_tag }}
-            {{ form.email }}
-        </div>
-
-        <div class="form-group">
-            {{ form.user_type.label_tag }}
-            {{ form.user_type }}
-        </div>
-
-        <div id="farmer_box" style="display:none;">
-            {{ form.products_offered.label_tag }}
-            {{ form.products_offered }}
-        </div>
-
-        <div id="business_box" style="display:none;">
-            {{ form.products_needed.label_tag }}
-            {{ form.products_needed }}
-        </div>
-
-        <div class="form-group">
-            {{ form.password.label_tag }}
-            {{ form.password }}
-        </div>
-
-        <div class="form-group">
-            {{ form.confirm_password.label_tag }}
-            {{ form.confirm_password }}
-        </div>
-
-        <button type="submit" class="btn-submit">Create Account</button>
-    </form>
-</div>
-</div>
-</body>
-
-
-<script>
-    const roleSelector = document.getElementById('role_selector');
-    const farmerBox = document.getElementById('farmer_box');
-    const businessBox = document.getElementById('business_box');
-
-    roleSelector.addEventListener('change', function() {
-        // Reset: Hide both first
-        farmerBox.style.display = 'none';
-        businessBox.style.display = 'none';
-
-        if (this.value === 'farmer') {
-            farmerBox.style.display = 'block';
-        } else if (this.value === 'business') {
-            businessBox.style.display = 'block';
-        } else if (this.value === 'both') {
-            farmerBox.style.display = 'block';
-            businessBox.style.display = 'block';
-        }
-    });
-</script>
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="register-container">
-    <div class="register-card">
-        <h2>Join SICKLE.com</h2>
-        <form method="POST">
+<div class="register-wrapper">
+    <div class="glass-card">
+        <h2 class="form-title">Join SICKLE.com</h2>
+        <p class="form-subtitle">Direct Farm-to-Business Procurement</p>
+
+        <form method="POST" id="registrationForm">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn-submit">Create Account</button>
+            
+            <div class="input-group">
+                <label>Full Name</label>
+                {{ form.full_name }}
+            </div>
+
+            <div class="input-group">
+                <label>Email ID</label>
+                {{ form.email }}
+            </div>
+
+            <div class="input-group">
+                <label>User type</label>
+                <select name="user_type" id="id_user_type" onchange="toggleFields()">
+                    <option value="">-- Select Role --</option>
+                    <option value="farmer">Farmer</option>
+                    <option value="business">Businessman</option>
+                    <option value="both">Both</option>
+                </select>
+            </div>
+
+            <div id="farmer_box" class="dynamic-field" style="display:none;">
+                <label>Which products you have?</label>
+                {{ form.products_offered }}
+            </div>
+
+            <div id="business_box" class="dynamic-field" style="display:none;">
+                <label>Which product are you looking for?</label>
+                {{ form.products_needed }}
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Password</label>
+                    {{ form.password }}
+                </div>
+                <div class="input-group">
+                    <label>Confirm Password</label>
+                    {{ form.confirm_password }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn-create">Create Account</button>
         </form>
     </div>
 </div>
+
+<script>
+function toggleFields() {
+    const userType = document.getElementById("id_user_type").value;
+    const farmerBox = document.getElementById("farmer_box");
+    const businessBox = document.getElementById("business_box");
+
+    // "Both" selection shows all questions
+    farmerBox.style.display = (userType === 'farmer' || userType === 'both') ? 'block' : 'none';
+    businessBox.style.display = (userType === 'business' || userType === 'both') ? 'block' : 'none';
+}
+</script>
 {% endblock %}

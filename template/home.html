@@ -1,12 +1,37 @@
 {% extends 'base.html' %}
-{% load static %}
-
 {% block content %}
-<div class="hero-section">
-    <h1>Direct Farm-to-Business Procurement</h1>
-    <p>Bridging the gap between farmers and food businesses.</p>
-    <div class="cta-container">
-        <a href="{% url 'register' %}" class="btn-primary">Enter SMPT Marketplace</a>
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center;">
+    <div class="glass-card" style="max-width: 700px;">
+        <h1 style="font-size: 3rem; color: var(--primary-green); margin-bottom: 10px;">SICKLE.com</h1>
+        <p style="font-size: 1.2rem; margin-bottom: 30px;">
+            Connecting local <strong>Farmers</strong> with <strong>Businesses</strong> for direct procurement.
+        </p>
+        <div style="display: flex; gap: 20px; justify-content: center;">
+            <a href="{% url 'register' %}" class="btn-main">Get Started</a>
+            <a href="/login" class="btn-outline">Log In</a>
+        </div>
     </div>
 </div>
+
+<style>
+    .btn-main {
+        background: var(--primary-green);
+        color: white;
+        padding: 15px 35px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    .btn-main:hover { background: var(--dark-green); transform: translateY(-3px); }
+    
+    .btn-outline {
+        border: 2px solid var(--primary-green);
+        color: var(--primary-green);
+        padding: 15px 35px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+</style>
 {% endblock %}
