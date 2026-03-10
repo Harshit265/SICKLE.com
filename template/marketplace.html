@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="text-align: center; margin-bottom: 3rem;">
+    <h1 style="font-size: 3.5rem; background: linear-gradient(135deg, #f8fafc 0%, #94a3b8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Community Members</h1>
+    <p style="color: var(--text-muted); font-size: 1.2rem;">Connect with professionals across the agricultural spectrum.</p>
+</div>
+
+<div class="dashboard-section">
+    <h2>Farmers Network</h2>
+    <div class="card-grid">
+        {% for profile in farmer_listings %}
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <h3 class="card-title">{{ profile.full_name|default:profile.user.username }}</h3>
+                <span class="badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">Farmer</span>
+            </div>
+            <p class="card-text" style="color: var(--text-muted);">
+                <strong>Location:</strong> {{ profile.city }}, {{ profile.state }}<br>
+                <strong>Produces:</strong> {{ profile.products_offered|default:"Not specified" }}
+            </p>
+            <a href="mailto:{{ profile.user.email }}" class="btn btn-outline" style="width: 100%;">Contact Farmer</a>
+        </div>
+        {% empty %}
+        <p style="color: var(--text-muted);">No farmers listed yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="dashboard-section">
+    <h2>Business Network</h2>
+    <div class="card-grid">
+        {% for profile in business_listings %}
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <h3 class="card-title">{{ profile.full_name|default:profile.user.username }}</h3>
+                <span class="badge" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">Business</span>
+            </div>
+            <p class="card-text" style="color: var(--text-muted);">
+                <strong>Location:</strong> {{ profile.city }}, {{ profile.state }}<br>
+                <strong>Looking For:</strong> {{ profile.products_needed|default:"Not specified" }}
+            </p>
+            <a href="mailto:{{ profile.user.email }}" class="btn btn-outline" style="width: 100%; color: #3b82f6; border-color: #3b82f6;">Contact Business</a>
+        </div>
+        {% empty %}
+        <p style="color: var(--text-muted);">No businesses listed yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,38 +1,96 @@
-
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
-<h2>Dashboard</h2>
-
-<div class="row">
-  <a class="btn" href="{% url 'product_create' %}">+ Add Product</a>
-  <a class="btn secondary" href="/smpt/">Browse Marketplace</a>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1 style="font-size: 3rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Dashboard</h1>
+    <a href="{% url 'product_create' %}" class="btn btn-primary">+ List New Crop</a>
 </div>
 
-<h3>Your Products</h3>
-<div class="grid">
-  {% for p in my_products %}
-    <div class="card">
-      <h4>{{ p.name }}</h4>
-      <p class="muted">{{ p.price_per_unit }} / {{ p.unit }}</p>
-      <p class="muted">Qty: {{ p.available_quantity }}</p>
-      <p class="muted">Active: {{ p.is_active }}</p>
+<div style="background: var(--bg-card); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; border: 1px solid var(--border-color); display: flex; align-items: flex-start; gap: 1rem;">
+    <div style="width: 45px; height: 45px; border-radius: 22.5px; background: rgba(16, 185, 129, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.25rem;">
+        📍
     </div>
-  {% empty %}
-    <p class="muted">No products yet.</p>
-  {% endfor %}
+    <div>
+        <h3 style="margin-bottom: 0.5rem; color: var(--text-main); font-size: 1.2rem;">My Location</h3>
+        <p style="margin: 0; color: var(--text-muted); font-size: 1rem; line-height: 1.5;">
+            {% if request.user.userprofile.address or request.user.userprofile.city or request.user.userprofile.state %}
+                {% if request.user.userprofile.address %}{{ request.user.userprofile.address }}<br>{% endif %}
+                {% if request.user.userprofile.city or request.user.userprofile.state %}
+                    {{ request.user.userprofile.city }}{% if request.user.userprofile.city and request.user.userprofile.state %}, {% endif %}{{ request.user.userprofile.state }}
+                {% endif %}
+            {% else %}
+                <em>No address information provided. Update your profile to help buyers/sellers find you!</em>
+            {% endif %}
+        </p>
+    </div>
 </div>
 
-<h3>Your Orders</h3>
-<div class="grid">
-  {% for o in my_orders %}
-    <div class="card">
-      <h4>Order #{{ o.id }}</h4>
-      <p class="muted">{{ o.product.name }}</p>
-      <p>Qty: {{ o.quantity }} | Total: {{ o.total_price }}</p>
-      <p class="muted">Status: {{ o.status }}</p>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 4rem;">
+    <div style="border-radius: 16px; overflow: hidden; height: 250px; position: relative;">
+        <img src="{% static 'images/wheat_grains.png' %}" alt="Wheat Grains" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(transparent, rgba(15, 23, 42, 0.9));">
+            <h3 style="color: white; font-size: 1.25rem;">Quality Wheat Produce</h3>
+        </div>
     </div>
-  {% empty %}
-    <p class="muted">No orders yet.</p>
-  {% endfor %}
+    <div style="border-radius: 16px; overflow: hidden; height: 250px; position: relative;">
+        <img src="{% static 'images/assorted_pulses.png' %}" alt="Assorted Pulses" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(transparent, rgba(15, 23, 42, 0.9));">
+            <h3 style="color: white; font-size: 1.25rem;">Assorted Pulses & Grains</h3>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-section">
+    <h2>My Active Listings ({{ my_products.count }})</h2>
+    {% if my_products %}
+        <ul class="item-list">
+            {% for product in my_products %}
+            <li class="item-row">
+                <div>
+                    <strong style="font-size: 1.1rem; color: var(--text-main);">{{ product.name }}</strong>
+                    <div style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
+                        ₹{{ product.price_per_unit }} &bull; {{ product.available_quantity }} {{ product.unit }} left
+                    </div>
+                </div>
+                <div>
+                    <a href="{% url 'product_detail' product.pk %}" class="btn btn-outline" style="padding: 0.5rem 1rem;">View</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div style="background: var(--bg-card); border-radius: 12px; padding: 2rem; border: 1px dashed var(--border-color); text-align: center;">
+            <p style="color: var(--text-muted); font-size: 1.1rem;">You don't have any products listed yet.</p>
+        </div>
+    {% endif %}
+</div>
+
+<div class="dashboard-section" style="margin-top: 4rem;">
+    <h2>My Orders ({{ my_orders.count }})</h2>
+    {% if my_orders %}
+        <ul class="item-list">
+            {% for order in my_orders %}
+            <li class="item-row">
+                <div>
+                    <strong style="font-size: 1.1rem; color: var(--text-main);">{{ order.product.name }}</strong>
+                    <div style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
+                        Qty: {{ order.quantity }} {{ order.product.unit }} &bull; Total: ₹{{ order.total_price }}
+                    </div>
+                </div>
+                <div>
+                    <span class="badge 
+                        {% if order.status == 'PENDING' %}badge-pending{% else %}badge-fulfilled{% endif %}">
+                        {{ order.status }}
+                    </span>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div style="background: var(--bg-card); border-radius: 12px; padding: 2rem; border: 1px dashed var(--border-color); text-align: center;">
+            <p style="color: var(--text-muted); font-size: 1.1rem;">You haven't placed any orders yet.</p>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

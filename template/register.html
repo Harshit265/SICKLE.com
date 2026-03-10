@@ -1,70 +1,23 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends "base.html" %}
 
 {% block content %}
-<div class="register-wrapper">
-    <div class="glass-card">
-        <h2 class="form-title">Join SICKLE.com</h2>
-        <p class="form-subtitle">Direct Farm-to-Business Procurement</p>
-
-        <form method="POST" id="registrationForm">
-            {% csrf_token %}
-            
-            <div class="input-group">
-                <label>Full Name</label>
-                {{ form.full_name }}
+<div class="form-container" style="margin-top: 2rem; max-width: 600px;">
+    <h2 style="font-size: 2rem; margin-bottom: 2rem; color: var(--text-main); text-align: center;">Create an Account</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div style="color: #ef4444; font-size: 0.85rem; margin-top: 0.25rem;">{{ field.errors.0 }}</div>
+                {% endif %}
             </div>
-
-            <div class="input-group">
-                <label>Email ID</label>
-                {{ form.email }}
-            </div>
-
-            <div class="input-group">
-                <label>User type</label>
-                <select name="user_type" id="id_user_type" onchange="toggleFields()">
-                    <option value="">-- Select Role --</option>
-                    <option value="farmer">Farmer</option>
-                    <option value="business">Businessman</option>
-                    <option value="both">Both</option>
-                </select>
-            </div>
-
-            <div id="farmer_box" class="dynamic-field" style="display:none;">
-                <label>Which products you have?</label>
-                {{ form.products_offered }}
-            </div>
-
-            <div id="business_box" class="dynamic-field" style="display:none;">
-                <label>Which product are you looking for?</label>
-                {{ form.products_needed }}
-            </div>
-
-            <div class="input-row">
-                <div class="input-group">
-                    <label>Password</label>
-                    {{ form.password }}
-                </div>
-                <div class="input-group">
-                    <label>Confirm Password</label>
-                    {{ form.confirm_password }}
-                </div>
-            </div>
-
-            <button type="submit" class="btn-create">Create Account</button>
-        </form>
-    </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">Create Account</button>
+    </form>
+    <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted);">
+        Already have an account? <a href="{% url 'login' %}" style="color: var(--primary); text-decoration: none;">Log in</a>.
+    </p>
 </div>
-
-<script>
-function toggleFields() {
-    const userType = document.getElementById("id_user_type").value;
-    const farmerBox = document.getElementById("farmer_box");
-    const businessBox = document.getElementById("business_box");
-
-    // "Both" selection shows all questions
-    farmerBox.style.display = (userType === 'farmer' || userType === 'both') ? 'block' : 'none';
-    businessBox.style.display = (userType === 'business' || userType === 'both') ? 'block' : 'none';
-}
-</script>
 {% endblock %}

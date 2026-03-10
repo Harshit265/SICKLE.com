@@ -1,53 +1,85 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>   /* Modern Theme */
-:root {
-    --primary-green: #2d6a4f;
-    --light-bg: #f8f9fa;
-    --white: #ffffff;
-}
-
-body { font-family: 'Segoe UI', sans-serif; background-color: var(--light-bg); }
-
-.hero-section {
-    text-align: center;
-    padding: 100px 20px;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/static/images/farm-bg.jpg');
-    color: white;
-    border-radius: 15px;
-}
-
-.btn-primary {
-    background-color: var(--primary-green);
-    color: white;
-    padding: 12px 30px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-/* Register Card */
-.register-container {
-    max-width: 500px;
-    margin: 50px auto;
-    background: var(--white);
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SICKLE | Farm to Business Marketplace{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    {% block content %}{% endblock %}
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="brand">SICKLE<span>.</span></a>
+            <div class="nav-links">
+                <a href="{% url 'marketplace' %}" class="nav-link">Marketplace</a>
+                <a href="{% url 'product_list' %}" class="nav-link">Products</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline" style="padding: 0.5rem 1rem;">Logout ({{ user.username }})</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-link">Log In</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary">Sign Up</a>
+                {% endif %}
+                <div id="google_translate_element" style="margin-left: 1rem;"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-wrapper">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); margin-top: auto; color: var(--text-muted);">
+        <p>&copy; 2026 SICKLE Marketplace. Empowering agriculture through technology.</p>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'hi,mr,te,ta,gu,kn,pa,bn,en', // Including major Indian languages + English
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <style>
+        /* Custom styles to make Google Translate look better in dark mode */
+        .goog-te-gadget-simple {
+            background-color: var(--bg-card) !important;
+            border: 1px solid var(--border-color) !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+        .goog-te-gadget-simple span {
+            color: var(--text-main) !important;
+        }
+        .goog-te-menu-value span {
+            color: var(--text-main) !important;
+        }
+        .goog-te-gadget-icon {
+            display: none !important;
+        }
+        /* Hide google top bar */
+        body { top: 0 !important; }
+        .skiptranslate iframe.goog-te-banner-frame { display: none !important; }
+    </style>
 </body>
 </html>

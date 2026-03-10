@@ -1,37 +1,32 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
 {% block content %}
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center;">
-    <div class="glass-card" style="max-width: 700px;">
-        <h1 style="font-size: 3rem; color: var(--primary-green); margin-bottom: 10px;">SICKLE.com</h1>
-        <p style="font-size: 1.2rem; margin-bottom: 30px;">
-            Connecting local <strong>Farmers</strong> with <strong>Businesses</strong> for direct procurement.
-        </p>
-        <div style="display: flex; gap: 20px; justify-content: center;">
-            <a href="{% url 'register' %}" class="btn-main">Get Started</a>
-            <a href="/login" class="btn-outline">Log In</a>
+<section class="hero">
+    <h1>Transforming the Agricultural Supply Chain</h1>
+    <p>Connect farmers with businesses directly. Eliminate middlemen, increase profits, and source high-quality produce with ease.</p>
+    <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+        <a href="{% url 'marketplace' %}" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">Explore Marketplace</a>
+        <a href="{% url 'register' %}" class="btn btn-outline" style="font-size: 1.1rem; padding: 1rem 2rem;">Join SICKLE</a>
+    </div>
+</section>
+
+<section>
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h2 style="font-size: 2.5rem; color: var(--text-main);">Why Choose Us?</h2>
+    </div>
+    <div class="card-grid">
+        <div class="card">
+            <h3 class="card-title">Direct Trade</h3>
+            <p class="card-text">Farmers can list their produce and sell directly to verified businesses and end-consumers. We ensure transparent pricing for all.</p>
+        </div>
+        <div class="card">
+            <h3 class="card-title">Zero Hassles</h3>
+            <p class="card-text">From ordering to tracking, manage your entire agriculture pipeline within a unified dashboard built for modern trading.</p>
+        </div>
+        <div class="card">
+            <h3 class="card-title">Secured Network</h3>
+            <p class="card-text">Build trust through verified profiles, secure transactions, and a community of dedicated agricultural professionals.</p>
         </div>
     </div>
-</div>
-
-<style>
-    .btn-main {
-        background: var(--primary-green);
-        color: white;
-        padding: 15px 35px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: 0.3s;
-    }
-    .btn-main:hover { background: var(--dark-green); transform: translateY(-3px); }
-    
-    .btn-outline {
-        border: 2px solid var(--primary-green);
-        color: var(--primary-green);
-        padding: 15px 35px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: bold;
-    }
-</style>
+</section>
 {% endblock %}

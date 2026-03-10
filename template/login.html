@@ -1,38 +1,22 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends "base.html" %}
 
 {% block content %}
-<div class="register-container"> <div class="glass-card">
-        <h2 class="title">Login to SICKLE.com</h2>
-        <p class="subtitle">Direct Farm-to-Business Procurement</p>
-
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}" style="color: #155724; background: #d4edda; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-
-        <form method="POST">
-            {% csrf_token %}
-            
-            <div class="input-group">
-                <label>Email ID</label>
-                <input type="email" name="username" placeholder="Enter your email" required>
-            </div>
-
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" name="password" placeholder="Enter password" required>
-            </div>
-
-            <button type="submit" class="btn-primary">Login</button>
-        </form>
-
-        <p style="margin-top: 20px; font-size: 0.9rem;">
-            Don't have an account? <a href="{% url 'register' %}" style="color: #2d6a4f; font-weight: bold;">Register here</a>
-        </p>
-    </div>
+<div class="form-container" style="margin-top: 5rem;">
+    <h2 style="font-size: 2rem; margin-bottom: 2rem; color: var(--text-main); text-align: center;">Welcome Back</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="text" name="username" class="form-control" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Log In</button>
+    </form>
+    <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted);">
+        Don't have an account? <a href="{% url 'register' %}" style="color: var(--primary); text-decoration: none;">Sign up here</a>.
+    </p>
 </div>
 {% endblock %}

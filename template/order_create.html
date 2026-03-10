@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container" style="max-width: 500px; margin-top: 2rem;">
+    <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--text-main);">Place Order</h2>
+    <div style="padding: 1rem; background: rgba(16, 185, 129, 0.1); border: 1px dashed var(--primary); border-radius: 8px; margin-bottom: 2rem;">
+        <h4 style="color: var(--primary); margin-bottom: 0.5rem;">{{ product.name }}</h4>
+        <p style="color: #cbd5e1; font-size: 0.9rem;">
+            Price: ₹{{ product.price_per_unit }} / {{ product.unit }}<br>
+            Available: {{ product.available_quantity }} {{ product.unit }}
+        </p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="form-label">Quantity to order ({{ product.unit }})</label>
+            <input type="number" step="0.01" min="0.01" max="{{ product.available_quantity }}" name="quantity" class="form-control" required placeholder="e.g. 10">
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Confirm Purchase</button>
+    </form>
+</div>
+{% endblock %}

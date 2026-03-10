@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container" style="max-width: 800px; margin-top: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h1 style="font-size: 2.5rem; color: var(--text-main);">{{ product.name }}</h1>
+        <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; font-size: 1.1rem; padding: 0.5rem 1rem;">
+            ₹{{ product.price_per_unit }} per {{ product.unit }}
+        </span>
+    </div>
+    
+    <div style="background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+        <p style="font-size: 1.1rem; color: var(--text-muted); line-height: 1.8;">{{ product.description|default:"No description provided." }}</p>
+    </div>
+    
+    <div style="display: flex; gap: 2rem; margin-bottom: 2rem; color: var(--text-muted);">
+        <div style="flex: 1; padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px;">
+            <strong style="color: var(--text-main); display: block; margin-bottom: 0.5rem;">Farmer</strong>
+            {{ product.farmer.username }}
+        </div>
+        <div style="flex: 1; padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px;">
+            <strong style="color: var(--text-main); display: block; margin-bottom: 0.5rem;">Quantity Available</strong>
+            {{ product.available_quantity }} {{ product.unit }}
+        </div>
+    </div>
+    
+    {% if user.is_authenticated %}
+        {% if user != product.farmer %}
+            <a href="{% url 'order_create' product.pk %}" class="btn btn-primary" style="width: 100%; font-size: 1.2rem; padding: 1rem;">Order Now</a>
+        {% else %}
+            <p style="text-align: center; color: var(--text-muted); font-style: italic;">This is your own product listing.</p>
+        {% endif %}
+    {% else %}
+        <a href="{% url 'login' %}" class="btn btn-outline" style="width: 100%; font-size: 1.1rem; padding: 1rem;">Log In to Order</a>
+    {% endif %}
+</div>
+{% endblock %}
