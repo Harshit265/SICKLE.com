@@ -26,17 +26,98 @@
     </div>
 </div>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 4rem;">
-    <div style="border-radius: 16px; overflow: hidden; height: 250px; position: relative;">
-        <img src="{% static 'images/wheat_grains.png' %}" alt="Wheat Grains" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(transparent, rgba(15, 23, 42, 0.9));">
-            <h3 style="color: white; font-size: 1.25rem;">Quality Wheat Produce</h3>
+<style>
+@keyframes scrollGallery {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-250px * 5 - 1rem * 5)); }
+}
+.gallery-track {
+    display: flex;
+    gap: 1rem;
+    animation: scrollGallery 25s linear infinite;
+    width: fit-content;
+}
+.gallery-track:hover {
+    animation-play-state: paused;
+}
+.gallery-item {
+    border-radius: 16px; 
+    overflow: hidden; 
+    height: 250px; 
+    width: 250px;
+    flex-shrink: 0;
+    position: relative;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+}
+.gallery-item img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: transform 0.5s ease;
+}
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+.gallery-overlay {
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    padding: 1rem; 
+    background: linear-gradient(transparent, rgba(15, 23, 42, 0.95));
+}
+.gallery-overlay h3 {
+    color: white; 
+    font-size: 1.1rem;
+    margin: 0;
+}
+</style>
+
+<div style="overflow: hidden; margin-bottom: 4rem; position: relative;">
+    <div class="gallery-track">
+        <!-- Original Images -->
+        <div class="gallery-item">
+            <img src="{% static 'images/wheat_grains.png' %}" alt="Quality Wheat">
+            <div class="gallery-overlay"><h3>Quality Wheat</h3></div>
         </div>
-    </div>
-    <div style="border-radius: 16px; overflow: hidden; height: 250px; position: relative;">
-        <img src="{% static 'images/assorted_pulses.png' %}" alt="Assorted Pulses" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(transparent, rgba(15, 23, 42, 0.9));">
-            <h3 style="color: white; font-size: 1.25rem;">Assorted Pulses & Grains</h3>
+        <div class="gallery-item">
+            <img src="{% static 'images/assorted_pulses.png' %}" alt="Assorted Pulses">
+            <div class="gallery-overlay"><h3>Assorted Pulses</h3></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/rice_grains.png' %}" alt="Pristine Rice">
+            <div class="gallery-overlay"><h3>Pristine Rice</h3></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/fresh_corn.png' %}" alt="Fresh Corn">
+            <div class="gallery-overlay"><h3>Fresh Corn</h3></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/organic_vegetables.png' %}" alt="Organic Veggies">
+            <div class="gallery-overlay"><h3>Organic Veggies</h3></div>
+        </div>
+        
+        <!-- Duplicates for seamless looping -->
+        <div class="gallery-item">
+            <img src="{% static 'images/wheat_grains.png' %}" alt="Quality Wheat">
+            <div class="gallery-overlay"><h3>Quality Wheat</h3></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/assorted_pulses.png' %}" alt="Assorted Pulses">
+            <div class="gallery-overlay"><h3>Assorted Pulses</h3></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/rice_grains.png' %}" alt="Pristine Rice">
+            <div class="gallery-overlay"><h3>Pristine Rice</h3></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/fresh_corn.png' %}" alt="Fresh Corn">
+            <div class="gallery-overlay"><h3>Fresh Corn</h3></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/organic_vegetables.png' %}" alt="Organic Veggies">
+            <div class="gallery-overlay"><h3>Organic Veggies</h3></div>
         </div>
     </div>
 </div>

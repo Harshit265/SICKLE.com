@@ -17,6 +17,9 @@
                 <a href="{% url 'product_list' %}" class="nav-link">Products</a>
                 {% if user.is_authenticated %}
                     <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                    {% if user.is_staff %}
+                        <a href="/admin/" class="nav-link" style="color: #f59e0b;">Admin Panel</a>
+                    {% endif %}
                     <form action="{% url 'logout' %}" method="post" style="display:inline;">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-outline" style="padding: 0.5rem 1rem;">Logout ({{ user.username }})</button>
@@ -81,5 +84,43 @@
         body { top: 0 !important; }
         .skiptranslate iframe.goog-te-banner-frame { display: none !important; }
     </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const passwordFields = document.querySelectorAll('input[type="password"]');
+            const openEye = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted);"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+            const closedEye = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted);"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+
+            passwordFields.forEach(function(field) {
+                const wrapper = document.createElement('div');
+                wrapper.style.position = 'relative';
+                wrapper.style.width = '100%';
+                wrapper.style.display = 'flex';
+                wrapper.style.alignItems = 'center';
+                
+                field.parentNode.insertBefore(wrapper, field);
+                wrapper.appendChild(field);
+                
+                const toggleIcon = document.createElement('span');
+                toggleIcon.innerHTML = openEye;
+                toggleIcon.style.position = 'absolute';
+                toggleIcon.style.right = '12px';
+                toggleIcon.style.cursor = 'pointer';
+                toggleIcon.style.display = 'flex';
+                toggleIcon.style.alignItems = 'center';
+                toggleIcon.style.justifyContent = 'center';
+                
+                toggleIcon.addEventListener('click', function() {
+                    const isPassword = field.type === 'password';
+                    field.type = isPassword ? 'text' : 'password';
+                    toggleIcon.innerHTML = isPassword ? closedEye : openEye;
+                });
+                
+                wrapper.appendChild(toggleIcon);
+                // Reserve space in the input for the icon
+                field.style.paddingRight = '45px';
+            });
+        });
+    </script>
 </body>
 </html>
