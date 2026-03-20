@@ -16,19 +16,6 @@ class RegistrationForm(forms.Form):
     state = forms.CharField(max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': 'State / Province', 'class': 'form-control'}))
     city = forms.CharField(max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': 'City / District', 'class': 'form-control'}))
     address = forms.CharField(required=False, widget=forms.Textarea(attrs={'placeholder': 'Full Street Address', 'class': 'form-control', 'rows': 2}))
-    
-    products_offered = forms.CharField(
-        label="Which products do you have? (Farmers)",
-        required=False,
-        widget=forms.TextInput(attrs={'placeholder': 'e.g. Wheat, Rice, Corn', 'class': 'form-control'})
-    )
-    
-    products_needed = forms.CharField(
-        label="Which products are you looking for? (Businesses)",
-        required=False,
-        widget=forms.TextInput(attrs={'placeholder': 'e.g. Organic Produce, Bulk Grains', 'class': 'form-control'})
-    )
-    
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password', 'class': 'form-control'}))
 

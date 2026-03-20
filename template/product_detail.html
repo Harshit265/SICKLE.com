@@ -16,7 +16,7 @@
     <div style="display: flex; gap: 2rem; margin-bottom: 2rem; color: var(--text-muted);">
         <div style="flex: 1; padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px;">
             <strong style="color: var(--text-main); display: block; margin-bottom: 0.5rem;">Farmer</strong>
-            {{ product.farmer.username }}
+            <a href="{% url 'profile' product.farmer.pk %}" style="color: var(--primary); text-decoration: none;">{{ product.farmer.username }}</a>
         </div>
         <div style="flex: 1; padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px;">
             <strong style="color: var(--text-main); display: block; margin-bottom: 0.5rem;">Quantity Available</strong>

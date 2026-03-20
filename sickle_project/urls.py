@@ -10,5 +10,6 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('marketplace/', marketplace_views.marketplace_view, name='marketplace'),
+    path('profile/<int:pk>/', marketplace_views.profile_view, name='profile'),
     path('', include('marketplace.urls')),
 ]

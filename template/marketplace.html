@@ -1,10 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="text-align: center; margin-bottom: 3rem;">
+<div style="text-align: center; margin-bottom: 2rem;">
     <h1 style="font-size: 3.5rem; background: linear-gradient(135deg, #f8fafc 0%, #94a3b8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Community Members</h1>
     <p style="color: var(--text-muted); font-size: 1.2rem;">Connect with professionals across the agricultural spectrum.</p>
 </div>
+
+<form method="get" action="" style="display: flex; gap: 1rem; max-width: 600px; margin: 0 auto 3rem;">
+    <input type="text" name="search" class="form-control" placeholder="Search members by name or city..." value="{{ search_query }}">
+    <button type="submit" class="btn btn-primary">Search</button>
+    {% if search_query %}
+        <a href="?" class="btn btn-outline">Clear</a>
+    {% endif %}
+</form>
 
 <div class="dashboard-section">
     <h2>Farmers Network</h2>
@@ -12,17 +20,20 @@
         {% for profile in farmer_listings %}
         <div class="card">
             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                <h3 class="card-title">{{ profile.full_name|default:profile.user.username }}</h3>
+                <h3 class="card-title">
+                    <a href="{% url 'profile' profile.user.pk %}" style="color: var(--text-main); text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-main)'">
+                        {{ profile.full_name|default:profile.user.username }}
+                    </a>
+                </h3>
                 <span class="badge" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">Farmer</span>
             </div>
             <p class="card-text" style="color: var(--text-muted);">
-                <strong>Location:</strong> {{ profile.city }}, {{ profile.state }}<br>
-                <strong>Produces:</strong> {{ profile.products_offered|default:"Not specified" }}
+                <strong>Location:</strong> {{ profile.city|default:"Unknown City" }}, {{ profile.state|default:"Unknown State" }}
             </p>
             <a href="mailto:{{ profile.user.email }}" class="btn btn-outline" style="width: 100%;">Contact Farmer</a>
         </div>
         {% empty %}
-        <p style="color: var(--text-muted);">No farmers listed yet.</p>
+        <p style="color: var(--text-muted);">No farmers match your search.</p>
         {% endfor %}
     </div>
 </div>
@@ -33,17 +44,20 @@
         {% for profile in business_listings %}
         <div class="card">
             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                <h3 class="card-title">{{ profile.full_name|default:profile.user.username }}</h3>
+                <h3 class="card-title">
+                    <a href="{% url 'profile' profile.user.pk %}" style="color: var(--text-main); text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='var(--text-main)'">
+                        {{ profile.full_name|default:profile.user.username }}
+                    </a>
+                </h3>
                 <span class="badge" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">Business</span>
             </div>
             <p class="card-text" style="color: var(--text-muted);">
-                <strong>Location:</strong> {{ profile.city }}, {{ profile.state }}<br>
-                <strong>Looking For:</strong> {{ profile.products_needed|default:"Not specified" }}
+                <strong>Location:</strong> {{ profile.city|default:"Unknown City" }}, {{ profile.state|default:"Unknown State" }}
             </p>
             <a href="mailto:{{ profile.user.email }}" class="btn btn-outline" style="width: 100%; color: #3b82f6; border-color: #3b82f6;">Contact Business</a>
         </div>
         {% empty %}
-        <p style="color: var(--text-muted);">No businesses listed yet.</p>
+        <p style="color: var(--text-muted);">No businesses match your search.</p>
         {% endfor %}
     </div>
 </div>
