@@ -7,6 +7,11 @@
     <a href="{% url 'product_create' %}" class="btn btn-primary">+ List New Crop</a>
 </div>
 
+<form method="get" action="{% url 'product_list' %}" style="margin-bottom: 2rem; display: flex; gap: 1rem; width: 100%;">
+    <input type="text" name="search" class="form-control" style="flex: 1; padding: 1rem; font-size: 1.1rem; border-radius: 8px; border: 2px solid var(--border-color); background: var(--bg-card); color: var(--text-main);" placeholder="🔍 Search for any crops, seeds, or equipment...">
+    <button type="submit" class="btn btn-primary" style="padding: 0 2rem; font-size: 1.1rem; border-radius: 8px;">Search Products</button>
+</form>
+
 <div style="background: var(--bg-card); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; border: 1px solid var(--border-color); display: flex; align-items: flex-start; gap: 1rem;">
     <div style="width: 45px; height: 45px; border-radius: 22.5px; background: rgba(16, 185, 129, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.25rem;">
         📍
@@ -79,45 +84,45 @@
         <!-- Original Images -->
         <div class="gallery-item">
             <img src="{% static 'images/wheat_grains.png' %}" alt="Quality Wheat">
-            <div class="gallery-overlay"><h3>Quality Wheat</h3></div>
+            <div class="gallery-overlay"><h3>Quality Wheat</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹45/kg</div></div>
         </div>
         <div class="gallery-item">
             <img src="{% static 'images/assorted_pulses.png' %}" alt="Assorted Pulses">
-            <div class="gallery-overlay"><h3>Assorted Pulses</h3></div>
+            <div class="gallery-overlay"><h3>Assorted Pulses</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹120/kg</div></div>
         </div>
         <div class="gallery-item">
             <img src="{% static 'images/rice_grains.png' %}" alt="Pristine Rice">
-            <div class="gallery-overlay"><h3>Pristine Rice</h3></div>
+            <div class="gallery-overlay"><h3>Pristine Rice</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹60/kg</div></div>
         </div>
         <div class="gallery-item">
             <img src="{% static 'images/fresh_corn.png' %}" alt="Fresh Corn">
-            <div class="gallery-overlay"><h3>Fresh Corn</h3></div>
+            <div class="gallery-overlay"><h3>Fresh Corn</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹30/kg</div></div>
         </div>
         <div class="gallery-item">
             <img src="{% static 'images/organic_vegetables.png' %}" alt="Organic Veggies">
-            <div class="gallery-overlay"><h3>Organic Veggies</h3></div>
+            <div class="gallery-overlay"><h3>Organic Veggies</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹50/kg</div></div>
         </div>
         
         <!-- Duplicates for seamless looping -->
         <div class="gallery-item">
             <img src="{% static 'images/wheat_grains.png' %}" alt="Quality Wheat">
-            <div class="gallery-overlay"><h3>Quality Wheat</h3></div>
+            <div class="gallery-overlay"><h3>Quality Wheat</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹45/kg</div></div>
         </div>
         <div class="gallery-item">
             <img src="{% static 'images/assorted_pulses.png' %}" alt="Assorted Pulses">
-            <div class="gallery-overlay"><h3>Assorted Pulses</h3></div>
+            <div class="gallery-overlay"><h3>Assorted Pulses</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹120/kg</div></div>
         </div>
         <div class="gallery-item">
             <img src="{% static 'images/rice_grains.png' %}" alt="Pristine Rice">
-            <div class="gallery-overlay"><h3>Pristine Rice</h3></div>
+            <div class="gallery-overlay"><h3>Pristine Rice</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹60/kg</div></div>
         </div>
         <div class="gallery-item">
             <img src="{% static 'images/fresh_corn.png' %}" alt="Fresh Corn">
-            <div class="gallery-overlay"><h3>Fresh Corn</h3></div>
+            <div class="gallery-overlay"><h3>Fresh Corn</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹30/kg</div></div>
         </div>
         <div class="gallery-item">
             <img src="{% static 'images/organic_vegetables.png' %}" alt="Organic Veggies">
-            <div class="gallery-overlay"><h3>Organic Veggies</h3></div>
+            <div class="gallery-overlay"><h3>Organic Veggies</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹50/kg</div></div>
         </div>
     </div>
 </div>
@@ -169,7 +174,8 @@
                         Qty: {{ order.quantity }} {{ order.product.unit }} &bull; Total: ₹{{ order.total_price }}
                     </div>
                 </div>
-                <div>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <a href="{% url 'order_bill' order.pk %}" class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">View Bill</a>
                     <span class="badge 
                         {% if order.status == 'PENDING' %}badge-pending{% else %}badge-fulfilled{% endif %}">
                         {{ order.status }}

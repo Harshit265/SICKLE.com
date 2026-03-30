@@ -12,6 +12,7 @@ class RegistrationForm(forms.Form):
     full_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Enter Full Name', 'class': 'form-control'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'example@email.com', 'class': 'form-control'}))
     role = forms.ChoiceField(choices=ROLE_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+    gst_number = forms.CharField(max_length=15, required=False, label="GST Number", widget=forms.TextInput(attrs={'placeholder': '15-digit GSTIN (Optional)', 'class': 'form-control'}))
     mobile_number = forms.CharField(max_length=15, required=False, widget=forms.TextInput(attrs={'placeholder': 'Mobile Number', 'class': 'form-control'}))
     state = forms.CharField(max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': 'State / Province', 'class': 'form-control'}))
     city = forms.CharField(max_length=100, required=False, widget=forms.TextInput(attrs={'placeholder': 'City / District', 'class': 'form-control'}))
