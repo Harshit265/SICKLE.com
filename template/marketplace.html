@@ -7,12 +7,11 @@
     <p style="color: var(--text-muted); font-size: 1.2rem;">Connect with professionals across the agricultural spectrum.</p>
 </div>
 
-<form method="get" action="" style="display: flex; gap: 1rem; width: 100%; max-width: 800px; margin: 0 auto 3rem;">
-    <input type="text" name="search" class="form-control" style="flex: 1; padding: 1rem; font-size: 1.1rem; border-radius: 8px; border: 2px solid var(--border-color); background: var(--bg-card); color: var(--text-main);" placeholder="🔍 Search for crops, farmers, or cities..." value="{{ search_query }}">
-    <button type="submit" formaction="{% url 'product_list' %}" class="btn btn-primary" style="padding: 0 1.5rem; font-size: 1.1rem; border-radius: 8px;">Find Produce</button>
-    <button type="submit" formaction="{% url 'marketplace' %}" class="btn btn-outline" style="padding: 0 1.5rem; font-size: 1.1rem; border-radius: 8px;">Find Members</button>
+<form method="get" action="{% url 'marketplace' %}" style="margin-bottom: 2rem; display: flex; gap: 1rem; width: 100%;">
+    <input type="text" name="search" class="form-control" style="flex: 1; padding: 1rem; font-size: 1.1rem; border-radius: 8px; border: 2px solid var(--border-color); background: var(--bg-card); color: var(--text-main);" placeholder="🔍 Search for products, farmers, businesses, or cities..." value="{{ search_query }}">
+    <button type="submit" class="btn btn-primary" style="padding: 0 2rem; font-size: 1.1rem; border-radius: 8px;">Search</button>
     {% if search_query %}
-    <a href="?" class="btn btn-outline" style="border: none; padding: 0 1rem;">Clear</a>
+    <a href="?" class="btn btn-outline" style="padding: 0 2rem; font-size: 1.1rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-decoration: none;">Clear</a>
     {% endif %}
 </form>
 
@@ -67,52 +66,79 @@
 <div style="overflow: hidden; margin-bottom: 4rem; position: relative;">
     <div class="gallery-track">
         <!-- Original Images -->
-        <div class="gallery-item">
+        <a href="?search=Wheat" class="gallery-item" style="display: block; text-decoration: none;">
             <img src="{% static 'images/wheat_grains.png' %}" alt="Quality Wheat">
             <div class="gallery-overlay"><h3>Quality Wheat</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹45/kg</div></div>
-        </div>
-        <div class="gallery-item">
+        </a>
+        <a href="?search=Pulses" class="gallery-item" style="display: block; text-decoration: none;">
             <img src="{% static 'images/assorted_pulses.png' %}" alt="Assorted Pulses">
             <div class="gallery-overlay"><h3>Assorted Pulses</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹120/kg</div></div>
-        </div>
-        <div class="gallery-item">
+        </a>
+        <a href="?search=Rice" class="gallery-item" style="display: block; text-decoration: none;">
             <img src="{% static 'images/rice_grains.png' %}" alt="Pristine Rice">
             <div class="gallery-overlay"><h3>Pristine Rice</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹60/kg</div></div>
-        </div>
-        <div class="gallery-item">
+        </a>
+        <a href="?search=Corn" class="gallery-item" style="display: block; text-decoration: none;">
             <img src="{% static 'images/fresh_corn.png' %}" alt="Fresh Corn">
             <div class="gallery-overlay"><h3>Fresh Corn</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹30/kg</div></div>
-        </div>
-        <div class="gallery-item">
+        </a>
+        <a href="?search=Veggie" class="gallery-item" style="display: block; text-decoration: none;">
             <img src="{% static 'images/organic_vegetables.png' %}" alt="Organic Veggies">
             <div class="gallery-overlay"><h3>Organic Veggies</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹50/kg</div></div>
-        </div>
+        </a>
         
         <!-- Duplicates for seamless looping -->
-        <div class="gallery-item">
+        <a href="?search=Wheat" class="gallery-item" style="display: block; text-decoration: none;">
             <img src="{% static 'images/wheat_grains.png' %}" alt="Quality Wheat">
             <div class="gallery-overlay"><h3>Quality Wheat</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹45/kg</div></div>
-        </div>
-        <div class="gallery-item">
+        </a>
+        <a href="?search=Pulses" class="gallery-item" style="display: block; text-decoration: none;">
             <img src="{% static 'images/assorted_pulses.png' %}" alt="Assorted Pulses">
             <div class="gallery-overlay"><h3>Assorted Pulses</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹120/kg</div></div>
-        </div>
-        <div class="gallery-item">
+        </a>
+        <a href="?search=Rice" class="gallery-item" style="display: block; text-decoration: none;">
             <img src="{% static 'images/rice_grains.png' %}" alt="Pristine Rice">
             <div class="gallery-overlay"><h3>Pristine Rice</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹60/kg</div></div>
-        </div>
-        <div class="gallery-item">
+        </a>
+        <a href="?search=Corn" class="gallery-item" style="display: block; text-decoration: none;">
             <img src="{% static 'images/fresh_corn.png' %}" alt="Fresh Corn">
             <div class="gallery-overlay"><h3>Fresh Corn</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹30/kg</div></div>
-        </div>
-        <div class="gallery-item">
+        </a>
+        <a href="?search=Veggie" class="gallery-item" style="display: block; text-decoration: none;">
             <img src="{% static 'images/organic_vegetables.png' %}" alt="Organic Veggies">
             <div class="gallery-overlay"><h3>Organic Veggies</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹50/kg</div></div>
-        </div>
+        </a>
     </div>
 </div>
 
+{% if search_query or product_listings %}
 <div class="dashboard-section">
+    <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Products</h2>
+    <div class="card-grid">
+        {% for product in product_listings %}
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <h3 class="card-title" style="font-size: 1.5rem;">{{ product.name }}</h3>
+                <span style="font-weight: 700; color: var(--primary); font-size: 1.25rem;">₹{{ product.price_per_unit }}/{{ product.unit }}</span>
+            </div>
+            <p class="card-text" style="margin-top: 1rem; color: var(--text-muted);">
+                {{ product.description|truncatewords:20 }}
+            </p>
+            <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; font-size: 0.9rem; color: #cbd5e1;">
+                <span><strong>Available:</strong> {{ product.available_quantity|floatformat:0 }} {{ product.unit }}</span>
+                <span><strong>Farmer:</strong> {{ product.farmer.userprofile.full_name|default:product.farmer.username }}</span>
+            </div>
+            
+            <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary" style="width: 100%;">View Details</a>
+        </div>
+        {% empty %}
+        <p style="color: var(--text-muted); grid-column: 1 / -1;">No products match your search.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<div class="dashboard-section" style="margin-top: 3rem;">
     <h2>Farmers Network</h2>
     <div class="card-grid">
         {% for profile in farmer_listings %}

@@ -55,14 +55,29 @@ def marketplace_view(request):
     query = request.GET.get('search', '')
     farmers = UserProfile.objects.filter(role__in=['farmer', 'both'])
     businesses = UserProfile.objects.filter(role__in=['business', 'both'])
+    products = Product.objects.filter(is_active=True).order_by("-created_at")
     
     if query:
-        farmers = farmers.filter(Q(full_name__icontains=query) | Q(city__icontains=query) | Q(state__icontains=query))
-        businesses = businesses.filter(Q(full_name__icontains=query) | Q(city__icontains=query) | Q(state__icontains=query))
+        farmers = farmers.filter(
+            Q(full_name__icontains=query) | 
+            Q(city__icontains=query) | 
+            Q(state__icontains=query) |
+            Q(products_offered__icontains=query) |
+            Q(user__products__name__icontains=query)
+        ).distinct()
+        businesses = businesses.filter(
+            Q(full_name__icontains=query) | 
+            Q(city__icontains=query) | 
+            Q(state__icontains=query) |
+            Q(products_needed__icontains=query) |
+            Q(user__products__name__icontains=query)
+        ).distinct()
+        products = products.filter(name__icontains=query)
     
     context = {
         'farmer_listings': farmers,
         'business_listings': businesses,
+        'product_listings': products,
         'search_query': query
     }
     return render(request, 'marketplace.html', context)
@@ -198,3 +213,13 @@ def profile_view(request, pk):
         'user_products': user_products
     }
     return render(request, 'profile.html', context)
+
+@login_required
+def toggle_order_status(request, order_id):
+    order = get_object_or_404(Order, pk=order_id, product__farmer=request.user)
+    if request.method == "POST":
+        is_done = request.POST.get('is_done') == 'true'
+        order.status = Order.Status.FULFILLED if is_done else Order.Status.PENDING
+        order.save()
+        messages.success(request, f"Order #{order.id} marked as {order.get_status_display()}.")
+    return redirect(request.META.get('HTTP_REFERER', 'dashboard'))

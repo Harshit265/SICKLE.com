@@ -69,11 +69,22 @@ body {
     color: var(--text-muted);
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.1s ease;
 }
 
 .nav-link:hover {
     color: var(--primary);
+    text-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+.nav-link.active {
+    color: var(--primary);
+    text-shadow: 0 0 12px rgba(16, 185, 129, 0.8), 0 0 24px rgba(16, 185, 129, 0.4);
+}
+
+.nav-link:active {
+    transform: scale(0.95);
+    text-shadow: 0 0 20px rgba(16, 185, 129, 1), 0 0 40px rgba(16, 185, 129, 0.8);
 }
 
 /* Buttons */

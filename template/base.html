@@ -7,19 +7,61 @@
     <title>{% block title %}SICKLE | Farm to Business Marketplace{% endblock %}</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .notification-bell:hover .dropdown-content {
+            display: block !important;
+        }
+        .text-success { color: #10b981; }
+        .text-muted { color: var(--text-muted); }
+    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <a href="{% url 'home' %}" class="brand">SICKLE<span>.</span></a>
             <div class="nav-links">
-                <a href="{% url 'marketplace' %}" class="nav-link">Marketplace</a>
-                <a href="{% url 'product_list' %}" class="nav-link">Products</a>
+                <a href="{% url 'marketplace' %}" class="nav-link {% if request.resolver_match.url_name == 'marketplace' %}active{% endif %}">Marketplace</a>
+                <a href="{% url 'product_list' %}" class="nav-link {% if request.resolver_match.url_name == 'product_list' %}active{% endif %}">Products</a>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
-                    <a href="{% url 'profile' user.pk %}" class="nav-link" style="color: var(--primary); display: flex; align-items: center; gap: 0.5rem;">
+                    <a href="{% url 'dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
+                    <a href="{% url 'profile' user.pk %}" class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" style="display: flex; align-items: center; gap: 0.5rem;">
                         <span style="font-size: 1.2rem;">👤</span> My Profile
                     </a>
+                    
+                    <div class="notification-bell" style="position: relative; display: flex; align-items: center; cursor: pointer; padding: 0.5rem;">
+                        <span style="font-size: 1.5rem;">🔔</span>
+                        {% if pending_orders_count > 0 %}
+                            <span style="position: absolute; top: 0px; right: 0px; background: #ef4444; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.75rem; font-weight: bold;">{{ pending_orders_count }}</span>
+                        {% endif %}
+                        
+                        <div class="dropdown-content" style="display: none; position: absolute; top: 100%; right: -50px; background: var(--bg-card); border: 1px solid var(--border-color); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); width: 320px; border-radius: 8px; z-index: 100; max-height: 400px; overflow-y: auto;">
+                            <div style="padding: 1rem; border-bottom: 1px solid var(--border-color); font-weight: bold; color: var(--text-main); font-size: 1.1rem;">
+                                Order Notifications
+                            </div>
+                            {% for order in incoming_orders %}
+                                <div style="padding: 1rem; border-bottom: 1px solid var(--border-color);">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                        <div style="font-weight: 600; color: var(--text-main);">{{ order.product.name }}</div>
+                                        <div style="color: var(--primary); font-weight: 500;">₹{{ order.grand_total }}</div>
+                                    </div>
+                                    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                                        Buyer: {{ order.buyer.username }} | Qty: {{ order.quantity|floatformat:0 }} {{ order.product.unit }}
+                                    </div>
+                                    <form method="post" action="{% url 'toggle_order_status' order.pk %}" style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                                        {% csrf_token %}
+                                        <input type="checkbox" name="is_done" value="true" onchange="this.form.submit()" {% if order.status == 'FULFILLED' %}checked{% endif %}>
+                                        <label class="{% if order.status == 'FULFILLED' %}text-success{% else %}text-muted{% endif %}">
+                                            {% if order.status == 'FULFILLED' %}Order Fulfilled{% else %}Mark as done{% endif %}
+                                        </label>
+                                    </form>
+                                </div>
+                            {% empty %}
+                                <div style="padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+                                    No incoming orders yet.
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                     {% if user.is_staff %}
                         <a href="/admin/" class="nav-link" style="color: #f59e0b;">Admin Panel</a>
                     {% endif %}

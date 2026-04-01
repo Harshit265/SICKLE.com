@@ -20,6 +20,18 @@ class UserProfile(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.role}"
 
+class FarmerProfile(UserProfile):
+    class Meta:
+        proxy = True
+        verbose_name = 'Farmer Profile'
+        verbose_name_plural = 'Farmer Profiles'
+
+class BusinessProfile(UserProfile):
+    class Meta:
+        proxy = True
+        verbose_name = 'Business Profile'
+        verbose_name_plural = 'Business Profiles'
+
 
 class Category(models.Model):
     name = models.CharField(max_length=200)

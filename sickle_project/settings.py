@@ -41,6 +41,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.template.context_processors.static",
                 "django.contrib.messages.context_processors.messages",
+                "marketplace.context_processors.notifications_processor",
             ],
         },
     },
