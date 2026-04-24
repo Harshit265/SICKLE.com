@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container" style="max-width: 500px; margin-top: 2rem;">
+    <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--text-main);">Place Order</h2>
+    <div style="padding: 1rem; background: rgba(16, 185, 129, 0.1); border: 1px dashed var(--primary); border-radius: 8px; margin-bottom: 2rem;">
+        <h4 style="color: var(--primary); margin-bottom: 0.5rem;">{{ product.name }}</h4>
+        <p style="color: #cbd5e1; font-size: 0.9rem;">
+            Price: ₹{{ product.price_per_unit }} / {{ product.unit }}<br>
+            Available: {{ product.available_quantity }} {{ product.unit }}
+        </p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="form-label">Quantity to order ({{ product.unit }})</label>
+            <input type="number" step="0.01" min="0.01" max="{{ product.available_quantity }}" name="quantity" id="orderQuantity" class="form-control" required placeholder="e.g. 10">
+        </div>
+        
+        <div id="billPreview" style="display: none; padding: 1rem; background: rgba(0, 0, 0, 0.2); border-radius: 8px; margin-bottom: 1rem;">
+            <p style="margin: 0.25rem 0;">Subtotal: ₹<span id="previewSubtotal">0.00</span></p>
+            {% if total_tax_rate > 0 %}
+            <p style="margin: 0.25rem 0;">Tax ({{ total_tax_rate|floatformat:1 }}%): ₹<span id="previewTax">0.00</span></p>
+            {% else %}
+            <p style="margin: 0.25rem 0;">Tax: ₹0.00</p>
+            {% endif %}
+            <hr style="border: 0; height: 1px; background: rgba(255,255,255,0.1); margin: 0.5rem 0;">
+            <p style="margin: 0.25rem 0; font-weight: bold; color: var(--primary);">Grand Total: ₹<span id="previewTotal">0.00</span></p>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Confirm Purchase</button>
+    </form>
+</div>
+
+<script>
+    const quantityInput = document.getElementById('orderQuantity');
+    const billPreview = document.getElementById('billPreview');
+    const previewSubtotal = document.getElementById('previewSubtotal');
+    const previewTax = document.getElementById('previewTax');
+    const previewTotal = document.getElementById('previewTotal');
+    
+    // Convert comma to dot if any, assuming standard notation
+    const pricePerUnit = parseFloat("{{ product.price_per_unit }}");
+    const taxRate = parseFloat("{{ total_tax_rate|default:0 }}");
+
+    quantityInput.addEventListener('input', function() {
+        const qty = parseFloat(this.value) || 0;
+        if (qty > 0) {
+            billPreview.style.display = 'block';
+            const sub = qty * pricePerUnit;
+            const tax = sub * (taxRate / 100);
+            const total = sub + tax;
+            
+            previewSubtotal.textContent = sub.toFixed(2);
+            if(previewTax) previewTax.textContent = tax.toFixed(2);
+            previewTotal.textContent = total.toFixed(2);
+        } else {
+            billPreview.style.display = 'none';
+        }
+    });
+</script>
+{% endblock %}

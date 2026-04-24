@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1 style="font-size: 3rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Dashboard</h1>
+    <a href="{% url 'product_create' %}" class="btn btn-primary">+ List New Crop</a>
+</div>
+
+<form method="get" action="{% url 'product_list' %}" style="margin-bottom: 2rem; display: flex; gap: 1rem; width: 100%;">
+    <input type="text" name="search" class="form-control" style="flex: 1; padding: 1rem; font-size: 1.1rem; border-radius: 8px; border: 2px solid var(--border-color); background: var(--bg-card); color: var(--text-main);" placeholder="🔍 Search for any crops, seeds, or equipment...">
+    <button type="submit" class="btn btn-primary" style="padding: 0 2rem; font-size: 1.1rem; border-radius: 8px;">Search Products</button>
+</form>
+
+<div style="background: var(--bg-card); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; border: 1px solid var(--border-color); display: flex; align-items: flex-start; gap: 1rem;">
+    <div style="width: 45px; height: 45px; border-radius: 22.5px; background: rgba(16, 185, 129, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.25rem;">
+        📍
+    </div>
+    <div>
+        <h3 style="margin-bottom: 0.5rem; color: var(--text-main); font-size: 1.2rem;">My Location</h3>
+        <p style="margin: 0; color: var(--text-muted); font-size: 1rem; line-height: 1.5;">
+            {% if request.user.userprofile.address or request.user.userprofile.city or request.user.userprofile.state %}
+                {% if request.user.userprofile.address %}{{ request.user.userprofile.address }}<br>{% endif %}
+                {% if request.user.userprofile.city or request.user.userprofile.state %}
+                    {{ request.user.userprofile.city }}{% if request.user.userprofile.city and request.user.userprofile.state %}, {% endif %}{{ request.user.userprofile.state }}
+                {% endif %}
+            {% else %}
+                <em>No address information provided. Update your profile to help buyers/sellers find you!</em>
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<style>
+@keyframes scrollGallery {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-250px * 5 - 1rem * 5)); }
+}
+.gallery-track {
+    display: flex;
+    gap: 1rem;
+    animation: scrollGallery 25s linear infinite;
+    width: fit-content;
+}
+.gallery-track:hover {
+    animation-play-state: paused;
+}
+.gallery-item {
+    border-radius: 16px; 
+    overflow: hidden; 
+    height: 250px; 
+    width: 250px;
+    flex-shrink: 0;
+    position: relative;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+}
+.gallery-item img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: transform 0.5s ease;
+}
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+.gallery-overlay {
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    padding: 1rem; 
+    background: linear-gradient(transparent, rgba(15, 23, 42, 0.95));
+}
+.gallery-overlay h3 {
+    color: white; 
+    font-size: 1.1rem;
+    margin: 0;
+}
+</style>
+
+<div style="overflow: hidden; margin-bottom: 4rem; position: relative;">
+    <div class="gallery-track">
+        <!-- Original Images -->
+        <div class="gallery-item">
+            <img src="{% static 'images/wheat_grains.png' %}" alt="Quality Wheat">
+            <div class="gallery-overlay"><h3>Quality Wheat</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹45/kg</div></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/assorted_pulses.png' %}" alt="Assorted Pulses">
+            <div class="gallery-overlay"><h3>Assorted Pulses</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹120/kg</div></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/rice_grains.png' %}" alt="Pristine Rice">
+            <div class="gallery-overlay"><h3>Pristine Rice</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹60/kg</div></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/fresh_corn.png' %}" alt="Fresh Corn">
+            <div class="gallery-overlay"><h3>Fresh Corn</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹30/kg</div></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/organic_vegetables.png' %}" alt="Organic Veggies">
+            <div class="gallery-overlay"><h3>Organic Veggies</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹50/kg</div></div>
+        </div>
+        
+        <!-- Duplicates for seamless looping -->
+        <div class="gallery-item">
+            <img src="{% static 'images/wheat_grains.png' %}" alt="Quality Wheat">
+            <div class="gallery-overlay"><h3>Quality Wheat</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹45/kg</div></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/assorted_pulses.png' %}" alt="Assorted Pulses">
+            <div class="gallery-overlay"><h3>Assorted Pulses</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹120/kg</div></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/rice_grains.png' %}" alt="Pristine Rice">
+            <div class="gallery-overlay"><h3>Pristine Rice</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹60/kg</div></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/fresh_corn.png' %}" alt="Fresh Corn">
+            <div class="gallery-overlay"><h3>Fresh Corn</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹30/kg</div></div>
+        </div>
+        <div class="gallery-item">
+            <img src="{% static 'images/organic_vegetables.png' %}" alt="Organic Veggies">
+            <div class="gallery-overlay"><h3>Organic Veggies</h3><div style="color: var(--primary); font-weight: bold; margin-top: 0.25rem;">₹50/kg</div></div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-section">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+        <h2 style="margin: 0; border: none; padding: 0;">My Active Listings ({{ my_products.count }})</h2>
+        <form method="get" action="" style="display: flex; gap: 0.5rem;">
+            <input type="text" name="search" class="form-control" style="padding: 0.5rem; font-size: 0.9rem;" placeholder="Search products..." value="{{ search_query }}">
+            <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1rem;">Filter</button>
+            {% if search_query %}
+                <a href="?" class="btn btn-outline" style="padding: 0.5rem 1rem;">Clear</a>
+            {% endif %}
+        </form>
+    </div>
+    
+    {% if my_products %}
+        <ul class="item-list">
+            {% for product in my_products %}
+            <li class="item-row">
+                <div>
+                    <strong style="font-size: 1.1rem; color: var(--text-main);">{{ product.name }}</strong>
+                    <div style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
+                        ₹{{ product.price_per_unit }} &bull; {{ product.available_quantity }} {{ product.unit }} left
+                    </div>
+                </div>
+                <div>
+                    <a href="{% url 'product_detail' product.pk %}" class="btn btn-outline" style="padding: 0.5rem 1rem;">View</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div style="background: var(--bg-card); border-radius: 12px; padding: 2rem; border: 1px dashed var(--border-color); text-align: center;">
+            <p style="color: var(--text-muted); font-size: 1.1rem;">No products found.</p>
+        </div>
+    {% endif %}
+</div>
+
+<div class="dashboard-section" style="margin-top: 4rem;">
+    <h2>My Orders ({{ my_orders.count }})</h2>
+    {% if my_orders %}
+        <ul class="item-list">
+            {% for order in my_orders %}
+            <li class="item-row">
+                <div>
+                    <strong style="font-size: 1.1rem; color: var(--text-main);">{{ order.product.name }}</strong>
+                    <div style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
+                        Qty: {{ order.quantity }} {{ order.product.unit }} &bull; Total: ₹{{ order.total_price }}
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <a href="{% url 'order_bill' order.pk %}" class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">View Bill</a>
+                    <span class="badge 
+                        {% if order.status == 'PENDING' %}badge-pending{% else %}badge-fulfilled{% endif %}">
+                        {{ order.status }}
+                    </span>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div style="background: var(--bg-card); border-radius: 12px; padding: 2rem; border: 1px dashed var(--border-color); text-align: center;">
+            <p style="color: var(--text-muted); font-size: 1.1rem;">You haven't placed any orders yet.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

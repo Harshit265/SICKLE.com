@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>Transforming the Agricultural Supply Chain</h1>
+    <p>Connect farmers with businesses directly. Eliminate middlemen, increase profits, and source high-quality produce with ease.</p>
+    <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+        <a href="{% url 'marketplace' %}" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">Explore Marketplace</a>
+        <a href="{% url 'register' %}" class="btn btn-outline" style="font-size: 1.1rem; padding: 1rem 2rem;">Join Sickle.com</a>
+    </div>
+</section>
+
+<section>
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h2 style="font-size: 2.5rem; color: var(--text-main);">Why Choose Us?</h2>
+    </div>
+    <div class="card-grid">
+        <div class="card">
+            <h3 class="card-title">Direct Trade</h3>
+            <p class="card-text">Farmers can list their produce and sell directly to verified businesses and end-consumers. We ensure transparent pricing for all.</p>
+        </div>
+        <div class="card">
+            <h3 class="card-title">Zero Hassles</h3>
+            <p class="card-text">From ordering to tracking, manage your entire agriculture pipeline within a unified dashboard built for modern trading.</p>
+        </div>
+        <div class="card">
+            <h3 class="card-title">Secured Network</h3>
+            <p class="card-text">Build trust through verified profiles, secure transactions, and a community of dedicated agricultural professionals.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1 style="font-size: 2.5rem; color: var(--text-main);">Available Products</h1>
+    <a href="{% url 'product_create' %}" class="btn btn-primary">+ List New Crop</a>
+</div>
+
+<div class="card-grid">
+    {% for product in products %}
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: start;">
+            <h3 class="card-title" style="font-size: 1.5rem;">{{ product.name }}</h3>
+            <span style="font-weight: 700; color: var(--primary); font-size: 1.25rem;">₹{{ product.price_per_unit }}/{{ product.unit }}</span>
+        </div>
+        <p class="card-text" style="margin-top: 1rem; color: var(--text-muted);">
+            {{ product.description|truncatewords:20 }}
+        </p>
+        <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; font-size: 0.9rem; color: #cbd5e1;">
+            <span><strong>Available:</strong> {{ product.available_quantity }} {{ product.unit }}</span>
+            <span><strong>Farmer:</strong> {{ product.farmer.username }}</span>
+        </div>
+        
+        <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary" style="width: 100%;">View Details</a>
+    </div>
+    {% empty %}
+    <div style="text-align: center; padding: 4rem; grid-column: 1 / -1; background: var(--bg-card); border-radius: 12px; border: 1px dashed var(--border-color);">
+        <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 1rem;">No products listed yet.</p>
+        <a href="{% url 'product_create' %}" class="btn btn-outline">Be the first to list!</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

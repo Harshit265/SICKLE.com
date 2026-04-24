@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container" style="margin-top: 2rem; max-width: 600px;">
+    <h2 style="font-size: 2rem; margin-bottom: 2rem; color: var(--text-main); text-align: center;">Create an Account</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div style="color: #ef4444; font-size: 0.85rem; margin-top: 0.25rem;">{{ field.errors.0 }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">Create Account</button>
+    </form>
+    <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted);">
+        Already have an account? <a href="{% url 'login' %}" style="color: var(--primary); text-decoration: none;">Log in</a>.
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sickle.com | Farm to Business Marketplace{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .notification-bell:hover .dropdown-content {
+            display: block !important;
+        }
+        .text-success { color: #10b981; }
+        .text-muted { color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="brand" style="display: flex; align-items: center; gap: 8px;">
+                <img src="{% static 'images/logo.png' %}" alt="Sickle.com Logo" style="height: 40px;">
+                Sickle<span>.com</span>
+            </a>
+            <div class="nav-links">
+                <a href="{% url 'marketplace' %}" class="nav-link {% if request.resolver_match.url_name == 'marketplace' %}active{% endif %}">Marketplace</a>
+                <a href="{% url 'product_list' %}" class="nav-link {% if request.resolver_match.url_name == 'product_list' %}active{% endif %}">Products</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
+                    <a href="{% url 'profile' user.pk %}" class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.2rem;">👤</span> My Profile
+                    </a>
+                    
+                    <div class="notification-bell" style="position: relative; display: flex; align-items: center; cursor: pointer; padding: 0.5rem;">
+                        <span style="font-size: 1.5rem;">🔔</span>
+                        {% if pending_orders_count > 0 %}
+                            <span style="position: absolute; top: 0px; right: 0px; background: #ef4444; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.75rem; font-weight: bold;">{{ pending_orders_count }}</span>
+                        {% endif %}
+                        
+                        <div class="dropdown-content" style="display: none; position: absolute; top: 100%; right: -50px; background: var(--bg-card); border: 1px solid var(--border-color); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); width: 320px; border-radius: 8px; z-index: 100; max-height: 400px; overflow-y: auto;">
+                            <div style="padding: 1rem; border-bottom: 1px solid var(--border-color); font-weight: bold; color: var(--text-main); font-size: 1.1rem;">
+                                Order Notifications
+                            </div>
+                            {% for order in incoming_orders %}
+                                <div style="padding: 1rem; border-bottom: 1px solid var(--border-color);">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                        <div style="font-weight: 600; color: var(--text-main);">{{ order.product.name }}</div>
+                                        <div style="color: var(--primary); font-weight: 500;">₹{{ order.grand_total }}</div>
+                                    </div>
+                                    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                                        Buyer: {{ order.buyer.username }} | Qty: {{ order.quantity|floatformat:0 }} {{ order.product.unit }}
+                                    </div>
+                                    <form method="post" action="{% url 'toggle_order_status' order.pk %}" style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                                        {% csrf_token %}
+                                        <input type="checkbox" name="is_done" value="true" onchange="this.form.submit()" {% if order.status == 'FULFILLED' %}checked{% endif %}>
+                                        <label class="{% if order.status == 'FULFILLED' %}text-success{% else %}text-muted{% endif %}">
+                                            {% if order.status == 'FULFILLED' %}Order Fulfilled{% else %}Mark as done{% endif %}
+                                        </label>
+                                    </form>
+                                </div>
+                            {% empty %}
+                                <div style="padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+                                    No incoming orders yet.
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% if user.is_staff %}
+                        <a href="/admin/" class="nav-link" style="color: #f59e0b;">Admin Panel</a>
+                    {% endif %}
+                    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline" style="padding: 0.5rem 1rem;">Logout ({{ user.username }})</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-link">Log In</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary">Sign Up</a>
+                {% endif %}
+                <div id="google_translate_element" style="margin-left: 1rem;"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-wrapper">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); margin-top: auto; color: var(--text-muted);">
+        <p>&copy; 2026 Sickle.com Marketplace. Empowering agriculture through technology.</p>
+    </footer>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'hi,mr,te,ta,gu,kn,pa,bn,en', // Including major Indian languages + English
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <style>
+        /* Custom styles to make Google Translate look better in dark mode */
+        .goog-te-gadget-simple {
+            background-color: var(--bg-card) !important;
+            border: 1px solid var(--border-color) !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+        .goog-te-gadget-simple span {
+            color: var(--text-main) !important;
+        }
+        .goog-te-menu-value span {
+            color: var(--text-main) !important;
+        }
+        .goog-te-gadget-icon {
+            display: none !important;
+        }
+        /* Hide google top bar */
+        body { top: 0 !important; }
+        .skiptranslate iframe.goog-te-banner-frame { display: none !important; }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const passwordFields = document.querySelectorAll('input[type="password"]');
+            const openEye = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted);"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+            const closedEye = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted);"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+
+            passwordFields.forEach(function(field) {
+                const wrapper = document.createElement('div');
+                wrapper.style.position = 'relative';
+                wrapper.style.width = '100%';
+                wrapper.style.display = 'flex';
+                wrapper.style.alignItems = 'center';
+                
+                field.parentNode.insertBefore(wrapper, field);
+                wrapper.appendChild(field);
+                
+                const toggleIcon = document.createElement('span');
+                toggleIcon.innerHTML = openEye;
+                toggleIcon.style.position = 'absolute';
+                toggleIcon.style.right = '12px';
+                toggleIcon.style.cursor = 'pointer';
+                toggleIcon.style.display = 'flex';
+                toggleIcon.style.alignItems = 'center';
+                toggleIcon.style.justifyContent = 'center';
+                
+                toggleIcon.addEventListener('click', function() {
+                    const isPassword = field.type === 'password';
+                    field.type = isPassword ? 'text' : 'password';
+                    toggleIcon.innerHTML = isPassword ? closedEye : openEye;
+                });
+                
+                wrapper.appendChild(toggleIcon);
+                // Reserve space in the input for the icon
+                field.style.paddingRight = '45px';
+            });
+        });
+    </script>
+</body>
+</html>
